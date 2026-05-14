@@ -47,7 +47,7 @@ export default function MoodPage() {
     <div className="space-y-4 stagger pt-2">
       <header>
         <div className="eyebrow">Mood — 30 derniers jours</div>
-        <h1 className="display text-[2rem] leading-none mt-1">
+        <h1 className="display text-[1.7rem] sm:text-[2rem] leading-none mt-1">
           Tes <span className="flourish">humeurs</span>
         </h1>
       </header>

@@ -21,7 +21,7 @@ export function GemCounter({ gems }: { gems: number }) {
   }, [delta, gems]);
 
   return (
-    <div className="relative inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-hairline shadow-sm">
+    <div className="relative inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-white border border-hairline shadow-sm shrink-0">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
         <path d="M6 9 L12 3 L18 9 L12 21 Z" fill="url(#sunrise-fill)" stroke="#f4628a" strokeWidth="1.2" strokeLinejoin="round" />
       </svg>

@@ -65,7 +65,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastCtx.Provider value={value}>
       {children}
-      <div className="pointer-events-none fixed bottom-28 inset-x-0 z-[60] flex flex-col items-center gap-2 px-4">
+      <div
+        className="pointer-events-none fixed inset-x-0 z-[60] flex flex-col items-center gap-2 px-4"
+        style={{ bottom: "calc(env(safe-area-inset-bottom) + 96px)" }}
+      >
         {items.map((t) => {
           const m = META[t.type];
           return (

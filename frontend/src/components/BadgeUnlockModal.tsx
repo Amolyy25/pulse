@@ -55,7 +55,7 @@ export function BadgeUnlockModal({
       <div className="pointer-events-none absolute inset-0 overflow-hidden">{confetti}</div>
       <div
         className={[
-          "relative bg-white border border-hairline rounded-3xl p-8 max-w-sm w-full text-center transition-transform duration-300 shadow-2xl",
+          "relative bg-white border border-hairline rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center transition-transform duration-300 shadow-2xl max-h-[90vh] overflow-y-auto",
           show ? "scale-100" : "scale-75",
         ].join(" ")}
       >

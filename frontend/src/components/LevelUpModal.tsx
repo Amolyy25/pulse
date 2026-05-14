@@ -25,7 +25,7 @@ export function LevelUpModal({
     >
       <div
         className={[
-          "relative max-w-sm w-full text-center rounded-3xl p-8 shadow-2xl transition-transform duration-300 overflow-hidden",
+          "relative max-w-sm w-full text-center rounded-3xl p-6 sm:p-8 shadow-2xl transition-transform duration-300 overflow-x-hidden overflow-y-auto max-h-[90vh]",
           show ? "scale-100" : "scale-75",
         ].join(" ")}
         style={{ background: "var(--grad-sunrise)" }}

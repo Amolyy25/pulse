@@ -5,7 +5,7 @@ type Props = {
   stroke?: number;
 };
 
-export function RingProgress({ done, total, size = 168, stroke = 14 }: Props) {
+export function RingProgress({ done, total, size = 148, stroke = 12 }: Props) {
   const pct = total === 0 ? 0 : Math.min(1, done / total);
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;

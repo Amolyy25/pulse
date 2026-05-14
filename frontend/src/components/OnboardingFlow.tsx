@@ -91,7 +91,10 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
         style={{ width: 320, height: 320, background: "var(--grad-rose)", bottom: -100, right: -100 }}
       />
 
-      <div className="relative z-10 w-full max-w-md card p-7 space-y-5 animate-slide-up">
+      <div
+        className="relative z-10 w-full max-w-md card p-6 sm:p-7 space-y-5 animate-slide-up max-h-[90vh] overflow-y-auto"
+        style={{ paddingBottom: "max(env(safe-area-inset-bottom), 1.5rem)" }}
+      >
         {step === 0 && (
           <div className="space-y-4">
             <Illu kind="wave" />

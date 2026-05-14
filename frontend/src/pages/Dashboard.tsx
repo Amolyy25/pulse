@@ -135,26 +135,28 @@ export default function Dashboard() {
 
       {/* Bento row: ring + XP/heat */}
       <section className="bento">
-        <div
-          className="sm:col-span-7 col-span-12 card card-tinted-lav p-5 sm:p-6 flex items-center justify-between gap-4 overflow-hidden relative"
-        >
-          <div>
-            <span className="eyebrow">Progression du jour</span>
-            <h2 className="display text-2xl mt-1 mb-4 text-ink">
-              Tes <span className="flourish">habitudes</span>
-            </h2>
-            <p className="text-sm text-ink-soft max-w-[14rem]">
-              {totalToday === 0
-                ? "Crée ta première habitude pour démarrer."
-                : completedToday === totalToday
-                  ? "Tout coché aujourd'hui. Magnifique."
-                  : `Encore ${totalToday - completedToday} à valider.`}
-            </p>
+        <div className="sm:col-span-7 col-span-12 card card-tinted-lav p-5 sm:p-6 relative overflow-hidden">
+          <div className="flex flex-col sm:flex-row items-center sm:items-center sm:justify-between gap-4">
+            <div className="text-center sm:text-left order-2 sm:order-1 w-full sm:w-auto">
+              <span className="eyebrow">Progression</span>
+              <h2 className="display text-2xl mt-1 mb-2 sm:mb-3 text-ink">
+                Tes <span className="flourish">habitudes</span>
+              </h2>
+              <p className="text-sm text-ink-soft max-w-[16rem] mx-auto sm:mx-0">
+                {totalToday === 0
+                  ? "Crée ta première habitude pour démarrer."
+                  : completedToday === totalToday
+                    ? "Tout coché aujourd'hui. Magnifique."
+                    : `Encore ${totalToday - completedToday} à valider.`}
+              </p>
+            </div>
+            <div className="order-1 sm:order-2 shrink-0">
+              <RingProgress done={completedToday} total={totalToday} size={148} />
+            </div>
           </div>
-          <RingProgress done={completedToday} total={totalToday} />
         </div>
 
-        <div className="sm:col-span-5 col-span-12 space-y-3 sm:space-y-4 flex flex-col">
+        <div className="sm:col-span-5 col-span-12 grid grid-cols-1 gap-3 sm:gap-4">
           <div className="card p-4 sm:p-5">
             <span className="eyebrow">Expérience</span>
             <div className="mt-2">
@@ -208,7 +210,7 @@ export default function Dashboard() {
       {/* Mood + Journal bento */}
       <section className="bento">
         <div className="sm:col-span-5 col-span-12 card p-4 sm:p-5">
-          <SectionHeader eyebrow="Humeur" title="Comment tu te sens ?" tight />
+          <SectionHeader eyebrow="Humeur" title="Ça va ?" tight />
           <div className="mt-3">
             <MoodPicker
               onPick={async (m, s) => {

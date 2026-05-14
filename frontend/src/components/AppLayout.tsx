@@ -17,40 +17,30 @@ export function AppLayout() {
     <div className="app-bg text-ink">
       <SvgDefs />
 
-      {/* Decorative blobs */}
+      <div
+        className="blob animate-drift-slow"
+        style={{ width: 280, height: 280, background: "var(--grad-amber)", top: -100, left: -90 }}
+      />
+      <div
+        className="blob animate-drift"
+        style={{ width: 260, height: 260, background: "var(--grad-rose)", top: 120, right: -100 }}
+      />
       <div
         className="blob animate-drift-slow"
         style={{
           width: 360,
           height: 360,
-          background: "var(--grad-amber)",
-          top: -120,
-          left: -80,
-        }}
-      />
-      <div
-        className="blob animate-drift"
-        style={{
-          width: 320,
-          height: 320,
-          background: "var(--grad-rose)",
-          top: 80,
-          right: -120,
-        }}
-      />
-      <div
-        className="blob animate-drift-slow"
-        style={{
-          width: 420,
-          height: 420,
           background: "linear-gradient(135deg, #e2d4ff 0%, #c8b5ff 100%)",
           bottom: -180,
-          left: "30%",
+          left: "20%",
         }}
       />
 
       <Header />
-      <main className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pb-28 pt-2">
+      <main
+        className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pt-2"
+        style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 100px)" }}
+      >
         <Outlet />
       </main>
       <BottomNav />

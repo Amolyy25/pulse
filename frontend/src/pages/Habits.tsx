@@ -84,10 +84,10 @@ export default function HabitsPage() {
 
   return (
     <div className="space-y-4 stagger pt-2">
-      <header className="flex items-end justify-between">
-        <div>
+      <header className="flex items-end justify-between gap-3 flex-wrap">
+        <div className="min-w-0">
           <div className="eyebrow">Habitudes</div>
-          <h1 className="display text-[2rem] text-ink leading-none mt-1">
+          <h1 className="display text-[1.7rem] sm:text-[2rem] text-ink leading-none mt-1">
             Mes <span className="flourish">rituels</span>
           </h1>
         </div>
@@ -96,7 +96,7 @@ export default function HabitsPage() {
             setEditing(null);
             setShowModal(true);
           }}
-          className="btn-primary"
+          className="btn-primary whitespace-nowrap shrink-0"
         >
           + Nouvelle
         </button>
@@ -326,7 +326,10 @@ function HabitModal({
 
   return (
     <div className="fixed inset-0 z-40 bg-ink/30 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
-      <div className="bg-paper border border-hairline rounded-t-3xl sm:rounded-3xl p-6 w-full max-w-md space-y-5 max-h-[92vh] overflow-y-auto shadow-2xl animate-slide-up">
+      <div
+        className="bg-paper border border-hairline rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 w-full sm:max-w-md space-y-5 max-h-[92vh] overflow-y-auto shadow-2xl animate-slide-up"
+        style={{ paddingBottom: "max(env(safe-area-inset-bottom), 1.25rem)" }}
+      >
         <div className="flex items-center justify-between">
           <div>
             <div className="eyebrow">{initial ? "Édition" : "Création"}</div>

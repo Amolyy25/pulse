@@ -49,7 +49,7 @@ export default function SettingsPage() {
     <div className="space-y-4 stagger pt-2">
       <header>
         <div className="eyebrow">Réglages</div>
-        <h1 className="display text-[2rem] leading-none mt-1">
+        <h1 className="display text-[1.7rem] sm:text-[2rem] leading-none mt-1">
           Mon <span className="flourish">compte</span>
         </h1>
       </header>

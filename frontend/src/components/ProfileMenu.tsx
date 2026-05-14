@@ -28,7 +28,7 @@ export function ProfileMenu({ initial }: { initial: string }) {
         <span className="font-display">{initial}</span>
       </button>
       {open && (
-        <div className="absolute left-0 mt-2 w-52 bg-white border border-hairline rounded-2xl shadow-xl py-1.5 z-40 animate-slide-up overflow-hidden">
+        <div className="absolute left-0 top-full mt-2 w-56 max-w-[calc(100vw-2rem)] bg-white border border-hairline rounded-2xl shadow-xl py-1.5 z-40 animate-slide-up overflow-hidden">
           <div className="px-3 pb-2 pt-1 eyebrow">Mon compte</div>
           <MenuItem to="/badges" icon="🏆" label="Badges" onClick={() => setOpen(false)} />
           <MenuItem to="/leaderboard" icon="📈" label="Classement" onClick={() => setOpen(false)} />

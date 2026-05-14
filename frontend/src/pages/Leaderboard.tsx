@@ -12,7 +12,7 @@ export default function LeaderboardPage() {
     <div className="space-y-4 stagger pt-2">
       <header>
         <div className="eyebrow">Classement</div>
-        <h1 className="display text-[2rem] leading-none mt-1">
+        <h1 className="display text-[1.7rem] sm:text-[2rem] leading-none mt-1">
           Top <span className="flourish">10</span>
         </h1>
       </header>
@@ -43,33 +43,48 @@ export default function LeaderboardPage() {
 }
 
 function Podium({ podium }: { podium: LeaderboardEntry[] }) {
-  // Order: 2nd, 1st, 3rd visually.
-  const visual = [podium[1], podium[0], podium[2]].filter(Boolean);
-  const heights = [108, 142, 92];
-  const tints = ["bg-lavender-100", "bg-peach-100", "bg-rose-100"];
-  const medals = ["🥈", "🥇", "🥉"];
+  // Visual order on row: 2nd | 1st | 3rd
+  const slots: ({ entry: LeaderboardEntry; rank: 1 | 2 | 3 } | null)[] = [
+    podium[1] ? { entry: podium[1], rank: 2 } : null,
+    podium[0] ? { entry: podium[0], rank: 1 } : null,
+    podium[2] ? { entry: podium[2], rank: 3 } : null,
+  ];
+  const heights: Record<number, number> = { 1: 120, 2: 92, 3: 76 };
+  const tints: Record<number, string> = {
+    1: "bg-peach-100",
+    2: "bg-lavender-100",
+    3: "bg-rose-100",
+  };
+  const medals: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
 
   return (
-    <div className="card p-5 relative overflow-hidden">
-      <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full opacity-50 blur-2xl" style={{ background: "var(--grad-rose)" }} />
-      <div className="grid grid-cols-3 gap-3 items-end relative">
-        {visual.map((r, i) => {
-          if (!r) return <div key={i} />;
-          const order = i === 1 ? 0 : i === 0 ? 1 : 2; // 1st in middle, 2nd left, 3rd right
-          const positions = ["order-1", "order-2", "order-3"];
+    <div className="card p-4 sm:p-5 relative overflow-hidden">
+      <div
+        className="absolute -top-12 -right-12 w-44 h-44 rounded-full opacity-50 blur-2xl pointer-events-none"
+        style={{ background: "var(--grad-rose)" }}
+      />
+      <div className="grid grid-cols-3 gap-2 sm:gap-3 items-end relative">
+        {slots.map((s, i) => {
+          if (!s) return <div key={i} />;
+          const { entry, rank } = s;
+          const big = rank === 1;
           return (
-            <div key={r.user_id} className={`flex flex-col items-center ${positions[order]}`}>
-              <Avatar name={r.username} size={i === 1 ? 56 : 44} highlighted={r.is_me} />
-              <div className="mt-1 font-display text-[15px] font-semibold text-ink leading-tight text-center">
-                {r.username}
+            <div key={entry.user_id} className="flex flex-col items-center min-w-0">
+              <Avatar name={entry.username} size={big ? 48 : 38} highlighted={entry.is_me} />
+              <div className="mt-1 font-display text-[13px] sm:text-[15px] font-semibold text-ink leading-tight text-center truncate max-w-full">
+                {entry.username}
               </div>
-              <div className="font-mono text-[11px] text-muted">Lvl {r.level}</div>
+              <div className="font-mono text-[10px] sm:text-[11px] text-muted">
+                Lvl {entry.level}
+              </div>
               <div
-                className={`${tints[i]} mt-2 w-full rounded-t-2xl border border-hairline flex flex-col items-center justify-center gap-1 px-1 pt-2 pb-3`}
-                style={{ height: heights[i] }}
+                className={`${tints[rank]} mt-2 w-full rounded-t-2xl border border-hairline flex flex-col items-center justify-center gap-0.5 px-1 pt-2 pb-3`}
+                style={{ height: heights[rank] }}
               >
-                <span className="text-xl leading-none">{medals[i]}</span>
-                <span className="editorial-num text-2xl leading-none">{r.xp}</span>
+                <span className="text-lg leading-none">{medals[rank]}</span>
+                <span className="editorial-num text-xl sm:text-2xl leading-none">
+                  {entry.xp}
+                </span>
                 <span className="eyebrow text-[8px]">XP</span>
               </div>
             </div>

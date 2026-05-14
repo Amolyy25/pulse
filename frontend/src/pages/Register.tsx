@@ -69,10 +69,16 @@ export default function Register() {
           </p>
         </div>
 
-        <div className="flex items-center justify-center p-6 sm:p-10">
+        <div
+          className="flex items-center justify-center p-4 sm:p-10"
+          style={{
+            paddingTop: "max(env(safe-area-inset-top), 1rem)",
+            paddingBottom: "max(env(safe-area-inset-bottom), 1rem)",
+          }}
+        >
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full max-w-sm card p-7 animate-slide-up"
+            className="w-full max-w-sm card p-6 sm:p-7 animate-slide-up"
           >
             <div className="mb-5">
               <div className="eyebrow">Inscription</div>

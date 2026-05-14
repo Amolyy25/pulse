@@ -6,10 +6,6 @@ function greetingFor(d: Date) {
   return "Belle soirée";
 }
 
-function ordinalFr(n: number) {
-  return n === 1 ? "1er" : `${n}`;
-}
-
 export function GreetingHero({
   username,
   topStreak,
@@ -20,19 +16,20 @@ export function GreetingHero({
   level: number;
 }) {
   const now = new Date();
-  const day = now.getDate();
-  const month = now.toLocaleDateString("fr-FR", { month: "long" });
 
   return (
     <section className="relative card card-tinted-peach overflow-hidden p-5 sm:p-6">
-      <div className="absolute -top-10 -right-10 w-44 h-44 rounded-full opacity-70 blur-2xl" style={{ background: "var(--grad-rose)" }} />
-      <div className="absolute top-3 right-4 eyebrow text-ink-soft">
-        {ordinalFr(day)} {month}
-      </div>
+      <div
+        className="absolute -top-10 -right-10 w-36 sm:w-44 h-36 sm:h-44 rounded-full opacity-60 blur-2xl pointer-events-none"
+        style={{ background: "var(--grad-rose)" }}
+      />
       <div className="relative">
-        <div className="eyebrow mb-2">{greetingFor(now)}</div>
-        <h1 className="display-xl text-[2.4rem] sm:text-[2.8rem] text-ink">
-          {username}<span className="text-rose-400">,</span>{" "}
+        <div className="eyebrow mb-1.5">{greetingFor(now)}</div>
+        <h1 className="display-xl text-[2rem] sm:text-[2.6rem] leading-[1] text-ink break-words">
+          {username}
+          <span className="text-rose-400">,</span>
+          <br className="sm:hidden" />
+          <span className="sm:ml-2"> </span>
           <span className="flourish">prêt·e</span> ?
         </h1>
         <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -44,11 +41,21 @@ export function GreetingHero({
   );
 }
 
-function Stat({ label, value, icon }: { label: string; value: string | number; icon: string }) {
+function Stat({
+  label,
+  value,
+  icon,
+}: {
+  label: string;
+  value: string | number;
+  icon: string;
+}) {
   return (
-    <div className="inline-flex items-center gap-2 bg-white/70 backdrop-blur border border-hairline rounded-full px-3 py-1.5">
-      <span className="text-sm">{icon}</span>
-      <span className="font-mono text-[13px] font-semibold tabular-nums text-ink">{value}</span>
+    <div className="inline-flex items-center gap-1.5 bg-white/70 backdrop-blur border border-hairline rounded-full px-2.5 py-1">
+      <span className="text-xs">{icon}</span>
+      <span className="font-mono text-[12px] font-semibold tabular-nums text-ink">
+        {value}
+      </span>
       <span className="eyebrow text-[9px]">{label}</span>
     </div>
   );

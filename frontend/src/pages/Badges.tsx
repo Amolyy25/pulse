@@ -29,14 +29,14 @@ export default function BadgesPage() {
 
   return (
     <div className="space-y-4 pt-2 stagger">
-      <header className="flex items-end justify-between">
-        <div>
+      <header className="flex items-end justify-between gap-3">
+        <div className="min-w-0">
           <div className="eyebrow">Collection</div>
-          <h1 className="display text-[2rem] leading-none mt-1">
+          <h1 className="display text-[1.7rem] sm:text-[2rem] leading-none mt-1">
             Mes <span className="flourish">badges</span>
           </h1>
         </div>
-        <div className="text-right">
+        <div className="text-right shrink-0">
           <div className="editorial-num text-3xl">{earnedCount}</div>
           <div className="eyebrow text-[9px]">sur {badges.length}</div>
         </div>

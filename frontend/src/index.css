@@ -98,6 +98,7 @@ body {
 .app-bg {
   position: relative;
   min-height: 100vh;
+  overflow-x: clip;
   background:
     radial-gradient(1100px 700px at 8% -10%, #ffd9c0 0%, transparent 55%),
     radial-gradient(1000px 600px at 100% 5%, #ffd1e4 0%, transparent 50%),
