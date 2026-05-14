@@ -21,24 +21,27 @@ export function ProfileMenu({ initial }: { initial: string }) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-10 h-10 rounded-full bg-gradient-to-br from-pulse-300 to-pulse-500 flex items-center justify-center font-bold text-white hover:ring-2 hover:ring-pulse-300 transition"
+        aria-label="profile menu"
+        className="relative w-11 h-11 rounded-2xl flex items-center justify-center font-display text-lg font-semibold text-white shadow-[0_8px_18px_-8px_rgba(244,98,138,0.6)] transition hover:scale-105"
+        style={{ background: "var(--grad-sunrise)" }}
       >
-        {initial}
+        <span className="font-display">{initial}</span>
       </button>
       {open && (
-        <div className="absolute left-0 mt-2 w-48 bg-white border border-pulse-100 rounded-xl shadow-xl py-1 z-40 animate-slide-up">
+        <div className="absolute left-0 mt-2 w-52 bg-white border border-hairline rounded-2xl shadow-xl py-1.5 z-40 animate-slide-up overflow-hidden">
+          <div className="px-3 pb-2 pt-1 eyebrow">Mon compte</div>
           <MenuItem to="/badges" icon="🏆" label="Badges" onClick={() => setOpen(false)} />
           <MenuItem to="/leaderboard" icon="📈" label="Classement" onClick={() => setOpen(false)} />
-          <MenuItem to="/settings" icon="⚙️" label="Réglages" onClick={() => setOpen(false)} />
-          <div className="border-t border-pulse-100 my-1" />
+          <MenuItem to="/settings" icon="⚙" label="Réglages" onClick={() => setOpen(false)} />
+          <div className="border-t border-hairline my-1" />
           <button
             onClick={() => {
               setOpen(false);
               logout();
             }}
-            className="w-full text-left px-3 py-2 text-sm hover:bg-pulse-50 text-red-500 flex items-center gap-2"
+            className="w-full text-left px-3 py-2 text-sm hover:bg-peach-50 text-rose-500 flex items-center gap-2.5"
           >
-            <span>🚪</span> Déconnexion
+            <span>↩</span> Déconnexion
           </button>
         </div>
       )}
@@ -61,9 +64,9 @@ function MenuItem({
     <Link
       to={to}
       onClick={onClick}
-      className="px-3 py-2 text-sm hover:bg-pulse-50 flex items-center gap-2 text-ink-900"
+      className="px-3 py-2 text-sm hover:bg-peach-50 flex items-center gap-2.5 text-ink"
     >
-      <span>{icon}</span> {label}
+      <span className="text-base">{icon}</span> {label}
     </Link>
   );
 }

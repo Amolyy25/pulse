@@ -21,11 +21,15 @@ export function GemCounter({ gems }: { gems: number }) {
   }, [delta, gems]);
 
   return (
-    <div className="relative inline-flex items-center gap-1 px-3 py-1 rounded-full bg-pulse-100 border border-pulse-200">
-      <span className="text-base">💎</span>
-      <span className="font-semibold text-pulse-500 text-sm tabular-nums">{gems}</span>
+    <div className="relative inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-hairline shadow-sm">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+        <path d="M6 9 L12 3 L18 9 L12 21 Z" fill="url(#sunrise-fill)" stroke="#f4628a" strokeWidth="1.2" strokeLinejoin="round" />
+      </svg>
+      <span className="font-mono text-[13px] font-semibold text-ink tabular-nums">
+        {gems}
+      </span>
       {delta !== null && (
-        <span className="pointer-events-none absolute -top-2 right-0 text-xs font-bold text-pulse-500 animate-float-up">
+        <span className="pointer-events-none absolute -top-3 right-0 text-[11px] font-bold text-rose-500 animate-float-up">
           +{delta}
         </span>
       )}

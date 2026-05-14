@@ -17,7 +17,7 @@ export function CheckInAnimation({
     const t = setTimeout(() => {
       setVisible(false);
       setTimeout(onDone, 250);
-    }, 1400);
+    }, 1500);
     return () => clearTimeout(t);
   }, [burst, onDone]);
 
@@ -25,17 +25,31 @@ export function CheckInAnimation({
 
   return (
     <div
-      className={`pointer-events-none fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300 ${
-        visible ? "opacity-100" : "opacity-0"
-      }`}
+      className={[
+        "pointer-events-none fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300",
+        visible ? "opacity-100" : "opacity-0",
+      ].join(" ")}
     >
-      <div className="bg-white/95 border border-pulse-200 rounded-2xl px-8 py-6 shadow-xl text-center animate-pop">
-        <div className="text-4xl font-bold text-pulse-500">+{burst.xp} XP 🎉</div>
+      <div className="relative bg-white border border-hairline rounded-3xl px-8 py-6 shadow-2xl text-center animate-pop overflow-hidden">
+        <div
+          className="absolute inset-0 -z-10 opacity-60"
+          style={{ background: "var(--grad-sunrise-soft)" }}
+        />
+        <div className="editorial-num text-[2.6rem] leading-none">
+          +{burst.xp}
+          <span className="font-body text-xs font-semibold tracking-[0.18em] uppercase ml-2 align-middle text-muted">
+            XP
+          </span>
+        </div>
         {burst.gems > 0 && (
-          <div className="text-pulse-600 mt-2 text-lg">+{burst.gems} 💎 streak bonus!</div>
+          <div className="mt-2 text-sm font-semibold text-rose-500">
+            +{burst.gems} 💎 bonus streak
+          </div>
         )}
         {burst.leveledUp && (
-          <div className="text-amber-500 mt-2 text-lg font-semibold">⬆️ Level up!</div>
+          <div className="mt-2 text-sm font-semibold text-peach-500">
+            ⬆ Niveau supérieur
+          </div>
         )}
       </div>
     </div>

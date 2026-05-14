@@ -1,28 +1,35 @@
 import type { Rarity } from "../types/badge";
 
-export const RARITY_META: Record<Rarity, { label: string; color: string; ring: string; chip: string }> = {
+export const RARITY_META: Record<
+  Rarity,
+  { label: string; color: string; ring: string; chip: string; tint: string }
+> = {
   common: {
-    label: "Common",
-    color: "#94a3b8",
-    ring: "ring-slate-500/40",
-    chip: "bg-slate-700/60 text-slate-200",
+    label: "Commun",
+    color: "#8a6a72",
+    ring: "ring-hairline",
+    chip: "bg-cream text-ink-soft",
+    tint: "card-tinted-peach",
   },
   rare: {
     label: "Rare",
-    color: "#60a5fa",
-    ring: "ring-blue-500/50",
-    chip: "bg-blue-700/40 text-blue-200",
+    color: "#6f3fd0",
+    ring: "ring-lavender-300/60",
+    chip: "bg-lavender-100 text-lavender-500",
+    tint: "card-tinted-lav",
   },
   epic: {
-    label: "Epic",
-    color: "#c084fc",
-    ring: "ring-purple-500/50",
-    chip: "bg-purple-700/40 text-purple-200",
+    label: "Épique",
+    color: "#d63e6e",
+    ring: "ring-rose-300/60",
+    chip: "bg-rose-100 text-rose-500",
+    tint: "card-tinted-rose",
   },
   legendary: {
-    label: "Legendary",
-    color: "#fbbf24",
-    ring: "ring-amber-400/60",
-    chip: "bg-amber-600/40 text-amber-200",
+    label: "Légendaire",
+    color: "#d99c1c",
+    ring: "ring-butter-300/70",
+    chip: "bg-butter-100 text-butter-400",
+    tint: "card-tinted-butter",
   },
 };

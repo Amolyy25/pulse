@@ -5,16 +5,17 @@ import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
 import { register as registerApi } from "../api/auth";
 import { useAuthStore } from "../store/authStore";
+import { SvgDefs } from "../components/SvgDefs";
 
 const schema = z
   .object({
-    username: z.string().min(3, "username must be at least 3 characters"),
-    email: z.string().email("invalid email"),
-    password: z.string().min(8, "password must be at least 8 characters"),
-    confirm: z.string().min(8, "confirm your password"),
+    username: z.string().min(3, "minimum 3 caractères"),
+    email: z.string().email("email invalide"),
+    password: z.string().min(8, "minimum 8 caractères"),
+    confirm: z.string().min(8, "confirmer le mot de passe"),
   })
   .refine((v) => v.password === v.confirm, {
-    message: "passwords do not match",
+    message: "les mots de passe diffèrent",
     path: ["confirm"],
   });
 
@@ -44,69 +45,74 @@ export default function Register() {
     } catch (err: unknown) {
       const msg =
         (err as { response?: { data?: { error?: string } } })?.response?.data
-          ?.error ?? "registration failed";
+          ?.error ?? "création impossible";
       setServerError(msg);
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-pulse-50 text-ink-900 p-6">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-sm space-y-4 bg-white border border-pulse-100 p-8 rounded-2xl shadow-sm animate-slide-up"
-      >
-        <div className="text-center mb-2">
-          <div className="w-14 h-14 mx-auto mb-2 rounded-2xl bg-gradient-to-br from-pulse-300 to-pulse-500 flex items-center justify-center text-2xl">
-            ✨
+    <div className="app-bg min-h-screen relative">
+      <SvgDefs />
+      <div className="blob" style={{ width: 360, height: 360, background: "var(--grad-rose)", top: -120, right: -80 }} />
+      <div className="blob" style={{ width: 320, height: 320, background: "linear-gradient(135deg, #e2d4ff, #c8b5ff)", bottom: -90, left: -120 }} />
+
+      <div className="relative z-10 min-h-screen grid sm:grid-cols-2">
+        <div className="hidden sm:flex flex-col justify-between p-10 lg:p-14">
+          <div>
+            <div className="eyebrow">Bienvenue</div>
+            <h1 className="display-xl text-[3.6rem] leading-[0.95] mt-2 max-w-md">
+              Crée ton <span className="flourish">rituel</span>.
+            </h1>
           </div>
-          <h1 className="text-2xl font-bold">Crée ton compte Pulse</h1>
+          <p className="font-display italic text-ink-soft text-lg max-w-sm">
+            "Commence petit. Reviens demain. Recommence."
+          </p>
         </div>
 
-        <Field label="Pseudo" error={errors.username?.message}>
-          <input
-            type="text"
-            {...register("username")}
-            className="w-full px-3 py-2 rounded-xl bg-pulse-50 border border-pulse-100 focus:outline-none focus:border-pulse-400"
-          />
-        </Field>
+        <div className="flex items-center justify-center p-6 sm:p-10">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="w-full max-w-sm card p-7 animate-slide-up"
+          >
+            <div className="mb-5">
+              <div className="eyebrow">Inscription</div>
+              <h2 className="display text-2xl mt-1">Nouveau compte</h2>
+            </div>
 
-        <Field label="Email" error={errors.email?.message}>
-          <input
-            type="email"
-            {...register("email")}
-            className="w-full px-3 py-2 rounded-xl bg-pulse-50 border border-pulse-100 focus:outline-none focus:border-pulse-400"
-          />
-        </Field>
+            <div className="space-y-3.5">
+              <Field label="Pseudo" error={errors.username?.message}>
+                <input type="text" autoComplete="username" {...register("username")} className="input" />
+              </Field>
+              <Field label="Email" error={errors.email?.message}>
+                <input type="email" autoComplete="email" {...register("email")} className="input" />
+              </Field>
+              <Field label="Mot de passe" error={errors.password?.message}>
+                <input type="password" autoComplete="new-password" {...register("password")} className="input" />
+              </Field>
+              <Field label="Confirmation" error={errors.confirm?.message}>
+                <input type="password" autoComplete="new-password" {...register("confirm")} className="input" />
+              </Field>
 
-        <Field label="Mot de passe" error={errors.password?.message}>
-          <input
-            type="password"
-            {...register("password")}
-            className="w-full px-3 py-2 rounded-xl bg-pulse-50 border border-pulse-100 focus:outline-none focus:border-pulse-400"
-          />
-        </Field>
+              {serverError && (
+                <div className="text-sm text-rose-500 bg-rose-50 border border-rose-100 rounded-xl px-3 py-2">
+                  {serverError}
+                </div>
+              )}
 
-        <Field label="Confirmation" error={errors.confirm?.message}>
-          <input
-            type="password"
-            {...register("confirm")}
-            className="w-full px-3 py-2 rounded-xl bg-pulse-50 border border-pulse-100 focus:outline-none focus:border-pulse-400"
-          />
-        </Field>
+              <button type="submit" disabled={isSubmitting} className="btn-primary w-full justify-center">
+                {isSubmitting ? "…" : "Créer mon compte"}
+              </button>
 
-        {serverError && <p className="text-red-500 text-sm">{serverError}</p>}
-
-        <button type="submit" disabled={isSubmitting} className="btn-primary w-full">
-          {isSubmitting ? "Création…" : "Créer mon compte"}
-        </button>
-
-        <p className="text-sm text-muted text-center">
-          Déjà un compte ?{" "}
-          <Link to="/login" className="text-pulse-500 font-medium hover:underline">
-            Se connecter
-          </Link>
-        </p>
-      </form>
+              <p className="text-sm text-muted text-center pt-1">
+                Déjà un compte ?{" "}
+                <Link to="/login" className="text-rose-500 font-semibold hover:underline">
+                  Se connecter
+                </Link>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
@@ -122,9 +128,9 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block text-sm mb-1 text-ink-700">{label}</label>
+      <label className="label">{label}</label>
       {children}
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+      {error && <p className="text-rose-500 text-xs mt-1.5">{error}</p>}
     </div>
   );
 }

@@ -5,10 +5,11 @@ import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../api/auth";
 import { useAuthStore } from "../store/authStore";
+import { SvgDefs } from "../components/SvgDefs";
 
 const schema = z.object({
-  email: z.string().email("invalid email"),
-  password: z.string().min(1, "password required"),
+  email: z.string().email("email invalide"),
+  password: z.string().min(1, "mot de passe requis"),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -33,66 +34,97 @@ export default function Login() {
     } catch (err: unknown) {
       const msg =
         (err as { response?: { data?: { error?: string } } })?.response?.data
-          ?.error ?? "login failed";
+          ?.error ?? "connexion impossible";
       setServerError(msg);
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-pulse-50 text-ink-900 p-6">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-sm space-y-4 bg-white border border-pulse-100 p-8 rounded-2xl shadow-sm animate-slide-up"
-      >
-        <div className="text-center mb-4">
-          <div className="w-14 h-14 mx-auto mb-2 rounded-2xl bg-gradient-to-br from-pulse-300 to-pulse-500 flex items-center justify-center text-2xl">
-            💗
+    <div className="app-bg min-h-screen relative">
+      <SvgDefs />
+      <div className="blob" style={{ width: 360, height: 360, background: "var(--grad-amber)", top: -100, left: -90 }} />
+      <div className="blob" style={{ width: 320, height: 320, background: "var(--grad-rose)", bottom: -80, right: -120 }} />
+
+      <div className="relative z-10 min-h-screen grid sm:grid-cols-2">
+        {/* Editorial left */}
+        <div className="hidden sm:flex flex-col justify-between p-10 lg:p-14">
+          <div>
+            <div className="eyebrow">Pulse</div>
+            <h1 className="display-xl text-[3.6rem] leading-[0.95] mt-2 max-w-md">
+              Tes <span className="flourish">habitudes</span>,<br />en douceur.
+            </h1>
           </div>
-          <h1 className="text-2xl font-bold text-ink-900">Pulse</h1>
-          <p className="text-sm text-muted">Bon retour parmi nous.</p>
+          <p className="font-display italic text-ink-soft text-lg max-w-sm">
+            "On devient ce qu'on répète. Choisis ce qui te ressemble."
+          </p>
         </div>
 
-        <div>
-          <label className="block text-sm mb-1 text-ink-700">Email</label>
-          <input
-            type="email"
-            {...register("email")}
-            className="w-full px-3 py-2 rounded-xl bg-pulse-50 border border-pulse-100 focus:outline-none focus:border-pulse-400"
-          />
-          {errors.email && (
-            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
-          )}
+        {/* Form right */}
+        <div className="flex items-center justify-center p-6 sm:p-10">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="w-full max-w-sm card p-7 animate-slide-up relative overflow-hidden"
+          >
+            <div className="sm:hidden mb-5">
+              <div className="eyebrow">Pulse</div>
+              <h1 className="display text-3xl mt-1">Bon retour</h1>
+            </div>
+            <div className="hidden sm:block mb-5">
+              <div className="eyebrow">Connexion</div>
+              <h2 className="display text-2xl mt-1">Bon retour</h2>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="label">Email</label>
+                <input
+                  type="email"
+                  autoComplete="email"
+                  {...register("email")}
+                  className="input"
+                />
+                {errors.email && (
+                  <p className="text-rose-500 text-xs mt-1.5">{errors.email.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="label">Mot de passe</label>
+                <input
+                  type="password"
+                  autoComplete="current-password"
+                  {...register("password")}
+                  className="input"
+                />
+                {errors.password && (
+                  <p className="text-rose-500 text-xs mt-1.5">{errors.password.message}</p>
+                )}
+              </div>
+
+              {serverError && (
+                <div className="text-sm text-rose-500 bg-rose-50 border border-rose-100 rounded-xl px-3 py-2">
+                  {serverError}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn-primary w-full justify-center"
+              >
+                {isSubmitting ? "…" : "Se connecter"}
+              </button>
+
+              <p className="text-sm text-muted text-center pt-1">
+                Pas de compte ?{" "}
+                <Link to="/register" className="text-rose-500 font-semibold hover:underline">
+                  En créer un
+                </Link>
+              </p>
+            </div>
+          </form>
         </div>
-
-        <div>
-          <label className="block text-sm mb-1 text-ink-700">Mot de passe</label>
-          <input
-            type="password"
-            {...register("password")}
-            className="w-full px-3 py-2 rounded-xl bg-pulse-50 border border-pulse-100 focus:outline-none focus:border-pulse-400"
-          />
-          {errors.password && (
-            <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
-          )}
-        </div>
-
-        {serverError && <p className="text-red-500 text-sm">{serverError}</p>}
-
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="btn-primary w-full"
-        >
-          {isSubmitting ? "Connexion…" : "Se connecter"}
-        </button>
-
-        <p className="text-sm text-muted text-center">
-          Pas de compte ?{" "}
-          <Link to="/register" className="text-pulse-500 font-medium hover:underline">
-            Créer
-          </Link>
-        </p>
-      </form>
+      </div>
     </div>
   );
 }

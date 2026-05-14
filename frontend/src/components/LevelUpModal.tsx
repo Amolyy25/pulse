@@ -17,24 +17,39 @@ export function LevelUpModal({
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-200 ${
-        show ? "opacity-100" : "opacity-0"
-      } bg-black/30 backdrop-blur-sm`}
+      className={[
+        "fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-200",
+        show ? "opacity-100" : "opacity-0",
+        "bg-ink/30 backdrop-blur-sm",
+      ].join(" ")}
     >
       <div
-        className={`bg-gradient-to-br from-pulse-100 to-pulse-300 border border-pulse-300 rounded-2xl p-8 max-w-sm w-full text-center transition-transform duration-300 shadow-xl ring-4 ring-amber-300/50 ${
-          show ? "scale-100" : "scale-50"
-        }`}
+        className={[
+          "relative max-w-sm w-full text-center rounded-3xl p-8 shadow-2xl transition-transform duration-300 overflow-hidden",
+          show ? "scale-100" : "scale-75",
+        ].join(" ")}
+        style={{ background: "var(--grad-sunrise)" }}
       >
-        <div className="text-6xl my-2">🎉</div>
-        <h3 className="text-2xl font-bold text-ink-900 mb-1">
-          Niveau {level} atteint !
+        <div className="absolute inset-0 -z-10 opacity-30 mix-blend-overlay">
+          <svg width="100%" height="100%">
+            <pattern id="dots" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1.2" fill="white" />
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#dots)" />
+          </svg>
+        </div>
+        <div className="eyebrow text-white/80 mb-1">Bravo</div>
+        <div className="editorial-num text-[5rem] text-white leading-none">{level}</div>
+        <h3 className="display text-xl text-white mt-1 mb-3">
+          Nouveau niveau
         </h3>
-        <p className="text-ink-700 mb-2">Continue comme ça.</p>
         {gemsBonus > 0 && (
-          <p className="text-pulse-600 text-sm mb-4">+{gemsBonus} 💎 bonus</p>
+          <p className="text-white/90 text-sm mb-4">+{gemsBonus} 💎 reçus en bonus.</p>
         )}
-        <button onClick={onClose} className="btn-primary w-full mt-2">
+        <button
+          onClick={onClose}
+          className="w-full justify-center inline-flex items-center bg-white text-ink rounded-full py-2.5 font-semibold text-sm hover:bg-cream transition"
+        >
           Continuer
         </button>
       </div>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { AwardedBadge } from "../types/badge";
 import { RARITY_META } from "../lib/rarity";
 
-const CONFETTI_COLORS = ["#f0abfc", "#fbcfe8", "#a78bfa", "#fde68a", "#a7f3d0"];
+const CONFETTI_COLORS = ["#ff8a4d", "#f4628a", "#8e5fe5", "#5ec78a", "#f3c33d", "#ffaecf"];
 
 export function BadgeUnlockModal({
   badge,
@@ -19,12 +19,13 @@ export function BadgeUnlockModal({
 
   const meta = RARITY_META[badge.rarity];
 
-  const confetti = Array.from({ length: 18 }).map((_, i) => {
+  const confetti = Array.from({ length: 22 }).map((_, i) => {
     const left = Math.random() * 100;
-    const delay = Math.random() * 0.6;
-    const dur = 1.5 + Math.random() * 1.2;
+    const delay = Math.random() * 0.7;
+    const dur = 1.6 + Math.random() * 1.4;
     const color = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
-    const size = 6 + Math.random() * 6;
+    const size = 5 + Math.random() * 8;
+    const rot = Math.random() * 360;
     return (
       <span
         key={i}
@@ -32,9 +33,10 @@ export function BadgeUnlockModal({
         style={{
           left: `${left}%`,
           width: size,
-          height: size,
+          height: size * 0.4,
           background: color,
           borderRadius: 2,
+          transform: `rotate(${rot}deg)`,
           animationDelay: `${delay}s`,
           animationDuration: `${dur}s`,
         }}
@@ -44,31 +46,45 @@ export function BadgeUnlockModal({
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-200 ${
-        show ? "opacity-100" : "opacity-0"
-      } bg-black/30 backdrop-blur-sm`}
+      className={[
+        "fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-200",
+        show ? "opacity-100" : "opacity-0",
+        "bg-ink/30 backdrop-blur-sm",
+      ].join(" ")}
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">{confetti}</div>
       <div
-        className={`relative bg-white border border-pulse-100 rounded-2xl p-8 max-w-sm w-full text-center transition-transform duration-300 shadow-xl ring-4 ${meta.ring} ${
-          show ? "scale-100" : "scale-50"
-        }`}
+        className={[
+          "relative bg-white border border-hairline rounded-3xl p-8 max-w-sm w-full text-center transition-transform duration-300 shadow-2xl",
+          show ? "scale-100" : "scale-75",
+        ].join(" ")}
       >
         <div
-          className={`inline-block text-xs px-2 py-1 rounded-full mb-3 font-semibold ${meta.chip}`}
+          aria-hidden
+          className="absolute inset-0 -z-10 rounded-3xl opacity-70"
+          style={{ background: "var(--grad-sunrise-soft)" }}
+        />
+        <div className="eyebrow mb-1">Récompense</div>
+        <h3 className="display text-2xl mb-3 text-ink">
+          Badge <span className="flourish">débloqué</span>
+        </h3>
+        <div
+          className="relative mx-auto w-24 h-24 mb-3 rounded-full flex items-center justify-center text-5xl"
+          style={{ background: meta.color + "22", boxShadow: `0 0 0 6px ${meta.color}1a` }}
         >
-          {meta.label}
+          {badge.icon}
         </div>
-        <h3 className="text-lg text-ink-700 mb-2">Badge débloqué !</h3>
-        <div className="text-6xl my-4">{badge.icon}</div>
-        <div className="text-2xl font-bold mb-1" style={{ color: meta.color }}>
+        <div className="font-display text-xl font-semibold mb-1" style={{ color: meta.color }}>
           {badge.name}
         </div>
+        <div className={`inline-block text-[10px] px-2 py-0.5 rounded-full uppercase tracking-[0.18em] font-semibold mb-3 ${meta.chip}`}>
+          {meta.label}
+        </div>
         {badge.description && (
-          <p className="text-sm text-muted mb-6">{badge.description}</p>
+          <p className="text-sm text-ink-soft mb-6">{badge.description}</p>
         )}
-        <button onClick={onClose} className="btn-primary w-full">
-          Super !
+        <button onClick={onClose} className="btn-primary w-full justify-center">
+          Continuer
         </button>
       </div>
     </div>
