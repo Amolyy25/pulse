@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { listHabits, checkinHabit, uncheckinHabit } from "../api/habits";
+import type { CheckinResponse } from "../types/habit";
 import { me } from "../api/auth";
 import { createMood } from "../api/mood";
 import { getTodayEntry, upsertTodayEntry } from "../api/journal";
@@ -53,33 +54,33 @@ export default function Dashboard() {
     onSuccess: (data, vars) => {
       qc.invalidateQueries({ queryKey: ["habits"] });
       qc.invalidateQueries({ queryKey: ["stats"] });
-      if (vars.on && "xp_earned" in data) {
-        setUser({
-          ...useAuthStore.getState().user!,
-          xp: data.user.xp,
-          gems: data.user.gems,
-          level: data.user.level,
+      if (!vars.on) return;
+      const r = data as CheckinResponse;
+      setUser({
+        ...useAuthStore.getState().user!,
+        xp: r.user.xp,
+        gems: r.user.gems,
+        level: r.user.level,
+      });
+      setBurst({
+        id: Date.now(),
+        xp: r.xp_earned,
+        gems: r.gems_earned,
+        leveledUp: r.leveled_up,
+      });
+      const rewards: Parameters<typeof pushRewards>[0] = [];
+      if (r.leveled_up) {
+        rewards.push({
+          type: "level",
+          level: r.user.level,
+          gemsBonus: r.gems_earned,
         });
-        setBurst({
-          id: Date.now(),
-          xp: data.xp_earned,
-          gems: data.gems_earned,
-          leveledUp: data.leveled_up,
-        });
-        const rewards: Parameters<typeof pushRewards>[0] = [];
-        if (data.leveled_up) {
-          rewards.push({
-            type: "level",
-            level: data.user.level,
-            gemsBonus: data.gems_earned,
-          });
-        }
-        for (const b of data.new_badges ?? []) {
-          rewards.push({ type: "badge", badge: b });
-        }
-        if (rewards.length) setTimeout(() => pushRewards(rewards), 1600);
-        qc.invalidateQueries({ queryKey: ["badges"] });
       }
+      for (const b of r.new_badges ?? []) {
+        rewards.push({ type: "badge", badge: b });
+      }
+      if (rewards.length) setTimeout(() => pushRewards(rewards), 1600);
+      qc.invalidateQueries({ queryKey: ["badges"] });
     },
   });
 
