@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String           @id @default(cuid())
+  username      String           @unique
+  email         String           @unique
+  password_hash String
+  xp            Int              @default(0)
+  gems          Int              @default(0)
+  level         Int              @default(1)
+  created_at    DateTime         @default(now())
+  refreshTokens RefreshToken[]
+  habits        Habit[]
+  journal       JournalEntry[]
+  moods         MoodLog[]
+  routines      Routine[]
+  badges        UserBadge[]
+  pushSubs      PushSubscription[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id         String   @id @default(cuid())
+  user_id    String
+  token      String   @unique
+  expires_at DateTime
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+model Habit {
+  id             String     @id @default(cuid())
+  user_id        String
+  name           String
+  icon           String     @default("⭐")
+  color          String     @default("#a78bfa")
+  frequency      String     @default("daily")
+  frequency_days Int[]      @default([])
+  streak_current Int        @default(0)
+  streak_best    Int        @default(0)
+  is_active      Boolean    @default(true)
+  order          Int        @default(0)
+  created_at     DateTime   @default(now())
+  user           User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  logs           HabitLog[]
+
+  @@map("habits")
+}
+
+model HabitLog {
+  id         String   @id @default(cuid())
+  habit_id   String
+  log_date   DateTime @db.Date
+  completed  Boolean  @default(true)
+  note       String?
+  created_at DateTime @default(now())
+  habit      Habit    @relation(fields: [habit_id], references: [id], onDelete: Cascade)
+
+  @@unique([habit_id, log_date])
+  @@map("habit_logs")
+}
+
+model JournalEntry {
+  id           String   @id @default(cuid())
+  user_id      String
+  entry_date   DateTime @db.Date @default(now())
+  content      String
+  energy_level Int      @default(3)
+  created_at   DateTime @default(now())
+  user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, entry_date])
+  @@map("journal_entries")
+}
+
+model MoodLog {
+  id        String   @id @default(cuid())
+  user_id   String
+  logged_at DateTime @default(now())
+  mood      String
+  score     Int
+  note      String?
+  user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("mood_logs")
+}
+
+model Routine {
+  id         String   @id @default(cuid())
+  user_id    String
+  name       String
+  type       String   @default("morning")
+  steps      Json
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("routines")
+}
+
+model Badge {
+  id              String      @id @default(cuid())
+  slug            String      @unique
+  name            String
+  description     String
+  icon            String
+  rarity          String      @default("common")
+  condition_type  String
+  condition_value Int         @default(1)
+  user_badges     UserBadge[]
+
+  @@map("badges")
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  user_id   String
+  badge_id  String
+  earned_at DateTime @default(now())
+  seen      Boolean  @default(false)
+  user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  badge     Badge    @relation(fields: [badge_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, badge_id])
+  @@map("user_badges")
+}
+
+model PushSubscription {
+  id         String   @id @default(cuid())
+  user_id    String
+  endpoint   String
+  p256dh     String
+  auth       String
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, endpoint])
+  @@map("push_subscriptions")
+}
